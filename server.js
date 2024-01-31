@@ -1,14 +1,12 @@
-const express = require("express")
+const express = require("express");
+const app = express();
+const { Sequelize } = require("sequelize");
 
-const app = express()
+require("dotenv").config();
 
-app.use(express.json())
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
-const PORT = process.env.PORT || 3000
-
-app.listen(PORT, () => console.log('Server running on PORT 3000'))
-
-
-// app.get("/", (req, res) => {
-  
-// })
+app.listen(process.env.PORT, () =>
+  console.log(ole.log(`Running on port: ${process.env.PORT}`))
+);
