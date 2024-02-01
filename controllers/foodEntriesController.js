@@ -1,72 +1,75 @@
-// Import necessary modules and models
-const express = require('express');
-const router = express.Router();
-const FoodEntry = require('../models/FoodEntry');
+const foodEntries = require('express').Router()
+const db = require('../models');
+const { FoodEntry } = db
 
-// Create a new food entry
-router.post('/', async (req, res) => {
+// GET /foodEntries
+foodEntries.get('/', async (req, res) => {
+  
   try {
-    const newFoodEntry = await FoodEntry.create(req.body);
-    res.status(201).json(newFoodEntry);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
-
-// Get all food entries
-router.get('/', async (req, res) => {
-  try {
-    const foodEntries = await FoodEntry.find();
+    
+    const foodEntries = await FoodEntry.findAll();
     res.json(foodEntries);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+    
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to retrieve food entries' });
   }
 });
 
-// Get a specific food entry by ID
-router.get('/:id', async (req, res) => {
+// POST /foodEntries
+foodEntries.post('/', async (req, res) => {
   try {
-    const foodEntry = await FoodEntry.findById(req.params.id);
+    const { name, calories } = req.body;
+    const foodEntry = await FoodEntry.create({ name, calories });
+    res.status(201).json(foodEntry);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to create food entry' });
+  }
+});
+
+// GET /foodEntries/:id
+foodEntries.get('/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const foodEntry = await FoodEntry.findByPk(id);
     if (foodEntry) {
       res.json(foodEntry);
     } else {
       res.status(404).json({ error: 'Food entry not found' });
     }
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to retrieve food entry' });
   }
 });
 
-// Update a specific food entry by ID
-router.put('/:id', async (req, res) => {
+// PUT /foodEntries/:id
+foodEntries.put('/:id', async (req, res) => {
   try {
-    const updatedFoodEntry = await FoodEntry.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true }
-    );
-    if (updatedFoodEntry) {
-      res.json(updatedFoodEntry);
+    const { id } = req.params;
+    const { name, calories } = req.body;
+    const [updated] = await FoodEntry.update({ name, calories }, { where: { id } });
+    if (updated) {
+      res.json({ message: 'Food entry updated successfully' });
     } else {
       res.status(404).json({ error: 'Food entry not found' });
     }
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to update food entry' });
   }
 });
 
-// Delete a specific food entry by ID
-router.delete('/:id', async (req, res) => {
+// DELETE /foodEntries/:id
+foodEntries.delete('/:id', async (req, res) => {
   try {
-    const deletedFoodEntry = await FoodEntry.findByIdAndDelete(req.params.id);
-    if (deletedFoodEntry) {
-      res.json({ message: 'Food entry deleted' });
+    const { id } = req.params;
+    const deleted = await FoodEntry.destroy({ where: { id } });
+    if (deleted) {
+      res.json({ message: 'Food entry deleted successfully' });
     } else {
       res.status(404).json({ error: 'Food entry not found' });
     }
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to delete food entry' });
   }
 });
 
-module.exports = router;
+module.exports = foodEntries;

@@ -19,18 +19,22 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
+        timestamps: false
       },
       food_name: {
         type: DataTypes.STRING,
         allowNull: false,
+        timestamps: false
       },
       calories: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
         allowNull: false,
+        timestamps: false
       },
       entry_date: {
         type: DataTypes.DATE,
         allowNull: false,
+        timestamps: false
       },
     },
     {
@@ -38,6 +42,7 @@ module.exports = (sequelize, DataTypes) => {
       modelName: "FoodEntry",
       tableName: "food_entries",
       underscored: true,
+      timestamps: false
     }
   );
 

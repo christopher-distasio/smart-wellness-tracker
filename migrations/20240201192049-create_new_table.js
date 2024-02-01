@@ -7,28 +7,24 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        timestamps: false
       },
-      foodName: {
+      food_name: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        timestamps: false
       },
       calories: {
         type: Sequelize.INTEGER,
-        allowNull: false
+        allowNull: false,
+        timestamps: false
       },
-      entryDate: {
+      entry_date: {
         type: Sequelize.DATE,
-        allowNull: false
-      },
-      createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        timestamps: false
       },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      }
     });
   },
   async down(queryInterface, Sequelize) {
