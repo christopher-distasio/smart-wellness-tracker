@@ -4,6 +4,7 @@
   "description": "*One paragraph of project description goes here*",
   "main": "server.js",
   "scripts": {
+    "build": "cd client && npm install && npm run build",
     "test": "jest",
     "start": "node server.js"
   },
