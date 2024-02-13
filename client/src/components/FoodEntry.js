@@ -16,7 +16,7 @@ function FoodEntry() {
         console.log(error);
       });
       
-  }, []);
+  }, [foodEntries]);
 
   return (
     <div>
