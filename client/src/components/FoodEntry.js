@@ -5,7 +5,7 @@ function FoodEntry() {
   let [foodEntries, setFoodEntries] = useState();
 
   useEffect(() => {
-    const foodApi = `http://localhost:4000/foodEntries`;
+    const foodApi = `https://smart-wellness-tracker.onrender.com/foodEntries`;
 
     fetch(foodApi)
       .then((res) => res.json())
